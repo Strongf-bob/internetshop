@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<link rel="stylesheet" href="{% static 'style.css' %}"/>
+<head>
+    <meta charset="UTF-8">
+    <title>Buypage</title>
+</head>
+<body>
+        <div class="menu">
+            <a class="menu_link" href="http://127.0.0.1:8000/">Главная</a>
+            <a class="menu_link" href="#">Скидки</a>
+            <a class="menu_link" href="#">Войти</a>
+            <a class="menu_link" href="#">Город</a>
+        </div>
+    <div class="content">
+        <div class="productCard">
+            <div class="content">
+                <div class="left-content">
+                    <img class="im" src="{{ product.image_url }}">
+                </div>
+            <div class="right-content">
+                    <h1>{{product.name}}</h1>
+                    <p>{{product.description}}</p>
+                    <h2>Характеристики:</h2>
+                <p class="info-text">
+                    Обьём видеопамяти: {{product.video_memory}} ГБ
+                </p>
+                     <p class="info-text">
+                        Количество листов: {{product.pages_count}} листов
+                    </p>
+                     <p class="info-text">
+                         Количество ядер: {{product.cores_count}} ядер
+                    </p>
+                        <h2>Цена: {{product.price}} ₽</h2>
+
+                    <a href="/payment/{{ product.id }}">
+            <button class="buy">Купить</button>
+        </a>
+
+            </div>
+            </div>
+            <h1 class="text">Отзывы:</h1>
+            <div class="Review-content">
+                       <div class="reviews">
+                    {% for review in reviews %}
+                    <div class="review">
+                        <div class="reviewsheader">
+                            <h2>{{ review.author }}</h2>
+
+                            {% if review.rating == 1 %}
+                            <h2 class="green">Положительный</h2>
+                            {% else %}
+                            <h2 class="red">Отрицательный</h2>
+                            {% endif %}
+
+                            <p>
+                                {{review.text}}
+                            </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="createReview">
+                        <form class="createReviewForm" method="POST">
+                            {% csrf_token %}
+
+                            <label for="author">Автор:</label>
+                            <input name="author" type="text">
+                            <label for="rating">Оценка:</label>
+                            <select name="rating">
+                                <option value="1">Положительный</option>
+                                <option value="0">Отрицательный</option>
+                            </select>
+                            <label for="text">Описание:</label>
+                            <textarea name="text", rows="10"></textarea>
+
+                            <button class="ButSend">Отправить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
